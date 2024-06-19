@@ -20,14 +20,14 @@ This script allows you to navigate Databricks DBFS, preview file contents, and d
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/databricks-dbfs-navigator.git
+   git clone https://github.com/narqulie/databricks-dbfs-navigator.git
    cd databricks-dbfs-navigator
    ```
 
 2. **Create and activate a virtual environment (optional but recommended):**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows, use `venv\Scriptsctivate`
+   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
    ```
 
 3. **Install the required libraries:**
