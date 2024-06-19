@@ -19,11 +19,20 @@ headers = {
     'Authorization': ACCESS_TOKEN
 }
 
+# Define the API endpoints for listing and downloading files
 list_url = f"{DATABRICKS_INSTANCE}/api/2.0/dbfs/list"
 download_url = f"{DATABRICKS_INSTANCE}/api/2.0/dbfs/read"
 
-
 def list_files(path):
+    """
+    List files and directories at the given path in Databricks DBFS.
+
+    Args:
+        path (str): The path in DBFS to list files and directories.
+
+    Returns:
+        list: A list of files and directories in the given path.
+    """
     response = requests.get(list_url, headers=headers, json={'path': path})
     if response.status_code == 200:
         items = response.json().get('files', [])
@@ -37,8 +46,16 @@ def list_files(path):
         print(f"Error: {response.status_code} - {response.text}")
         return []
 
-
 def preview_file(path):
+    """
+    Preview the content of a file in Databricks DBFS.
+
+    Args:
+        path (str): The path to the file in DBFS.
+
+    Returns:
+        str: The content of the file.
+    """
     response = requests.get(download_url, headers=headers, json={'path': path})
     if response.status_code == 200:
         file_content = base64.b64decode(response.json().get('data', '')).decode('utf-8')
@@ -50,8 +67,14 @@ def preview_file(path):
         print(f"Error: {response.status_code} - {response.text}")
         return None
 
-
 def download_file(path, content):
+    """
+    Download a file from Databricks DBFS to the local machine.
+
+    Args:
+        path (str): The path to the file in DBFS.
+        content (str): The content of the file.
+    """
     local_filename = os.path.basename(path)
     local_path = os.path.join(os.getcwd(), 'downloaded', local_filename)
     os.makedirs(os.path.dirname(local_path), exist_ok=True)
@@ -59,8 +82,10 @@ def download_file(path, content):
         file.write(content)
     print(f"File {path} downloaded successfully to {local_path}.")
 
-
 def main():
+    """
+    Main function to navigate Databricks DBFS, preview files, and download files.
+    """
     current_path = BASE_PATH
     while True:
         print(f"\nListing contents of {current_path}:\n")
